@@ -23,29 +23,38 @@ int main()
 	size_t rows;
 	size_t cols;
 
-	//read_new(m, rows, cols);
-	//delete_matrix(m, rows, cols);
-	//read_new(m, rows, cols);
-	//try {
-	//	cout << sum(m, rows, cols) << endl;
-	//}
-	//catch (int a) {
-	//	cout << "Ошибка: деление на 0" << endl;
-	//}
-	//delete_matrix(m, rows, cols);
-	//read_new(m, rows, cols);
-	//newcolum(m, rows, cols);
-	//delete_matrix(m, rows, cols);
-	//read_new(m, rows, cols);
-	//max_del(m, rows, cols);
-	//delete_matrix(m, rows, cols);
+	// # 1
+	read_new(m, rows, cols);
+
+	// # 2
+	delete_matrix(m, rows, cols);
+
+	// # 3
+	read_new(m, rows, cols);
+	try {
+		cout << sum(m, rows, cols) << endl;
+	}
+	catch (int a) {
+		cout << "Ошибка: деление на 0" << endl;
+	}
+	delete_matrix(m, rows, cols);
+
+	// # 4
+	read_new(m, rows, cols);
+	newcolum(m, rows, cols);
+	delete_matrix(m, rows, cols);
+
+	// # 5
+	read_new(m, rows, cols);
+	max_del(m, rows, cols);
+	delete_matrix(m, rows, cols);
+
+	// # 6
 	read_new(m, rows, cols);
 	printMatrix(m, rows, cols);
 	print_func(check_row, m, rows, cols);
 	printMatrix(m, rows, cols);
-	//system("pause");
 	delete_matrix(m, rows, cols);
-
 
 	//system("pause");
 	return 0;

@@ -43,7 +43,7 @@ int main()
 	printMatrix(m, rows, cols);
 	print_func(check_row, m, rows, cols);
 	printMatrix(m, rows, cols);
-	system("pause");
+	//system("pause");
 	delete_matrix(m, rows, cols);
 
 

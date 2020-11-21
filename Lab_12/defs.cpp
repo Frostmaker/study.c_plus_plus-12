@@ -148,12 +148,21 @@ void print_func(bool (*f)(double*, size_t), double**& m, size_t& rows, size_t& c
 	// Ф. удаляет из матрицы строки, удовлетворяющие условию, заданному функцией-параметром
 
 	int k{ 0 };
-	for (int i = rows - 1; i >= 0; i--) {
+	for (int i = 0; i < rows; i++) {
 		if (f(m[i], cols)) {
-			delete[] m[i];
 			k++;
 		}
+		else {
+			for (int j = 0; j < cols; j++) {
+				m[i - k][j] = m[i][j];
+			}
+		}
 	}
+
+	for (int i = (rows - k); i < rows; i++) {
+		delete[] m[i];
+	}
+
 	rows -= k;
 	return;
 }
@@ -163,13 +172,20 @@ bool check_row(double* row, size_t len)
 {
 	// Ф. проверяет: строка состоит из одних нулей, в строке нет положительных элементов
 
-	bool checkpoint{ true };
+	bool only_zeros{ true }, no_positive{ true };
 	for (int i{ 0 }; i < len; i++) {
-		if (row[i] != 0.0 || row[i] > 0) {
-			checkpoint = false;
-			break;
+
+		if (row[i] > 0.0) {
+			no_positive = false;
+		}
+		if (row[i] != 0.0) {
+			only_zeros = false;
+		}
+
+		if (no_positive | only_zeros) {
+			return true;
 		}
 	}
 
-	return checkpoint;
+	return false;
 }

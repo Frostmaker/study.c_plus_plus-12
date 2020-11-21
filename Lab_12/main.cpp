@@ -194,6 +194,8 @@ int main()
 		}
 	}
 
+	if (m != nullptr)
+		delete_matrix(m, rows, cols);
 	//system("pause");
 	return 0;
 }

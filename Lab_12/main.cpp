@@ -48,66 +48,148 @@ int main()
 		switch (p) {
 		case 1:
 		{
-			read_new(m, rows, cols);
+			// Ввод матрицы
+
+			try
+			{
+				read_new(m, rows, cols);
+			}
+			catch (int)
+			{
+				cout << "Ошибка: матрица уже существует\n";
+			}
 			break;
 		}
 
 		case 2:
 		{
-			delete_matrix(m, rows, cols);
+			// Удаление матрицы
+
+			try
+			{
+				delete_matrix(m, rows, cols);
+				break;
+			}
+			catch (int)
+			{
+				cout << "Ошибка: матрица не существует\n";
+			}
 			break;
 		}
 
 		case 3:
 		{
-			try {
+			// Отношение сумм элементов на диагоналях
+
+			try
+			{
 				cout << sum(m, rows, cols) << endl;
 			}
-			catch (int a) {
-				cout << "Ошибка: деление на 0" << endl;
+			catch (int err)
+			{
+				switch (err)
+				{
+				case -2:
+				{
+					cout << "Ошибка: матрица не существует\n";
+					break;
+				}
+				case -3:
+				{
+					cout << "Ошибка: матрица не квадратной формы" << endl;
+					break;
+				}
+				case -4:
+				{
+					cout << "Ошибка: деление на 0" << endl;
+					break;
+				}
+				}	
 			}
 			break;
 		}
 
 		case 4:
 		{
-			newcolum(m, rows, cols);
+			// Добавить столбец с минимальным положительным элементом строки
+
+			try
+			{
+				newcolum(m, rows, cols);
+				cout << "SUCCESS!\n";
+			}
+			catch (int)
+			{
+				cout << "Ошибка: матрица не существует\n";
+			}
 			break;
 		}
 
 		case 5:
 		{
-			max_del(m, rows, cols);
+			// Удаление строки и столбца с макс. элементом
+			try
+			{
+				max_del(m, rows, cols);
+				cout << "SUCCESS!\n";
+			}
+			catch (int)
+			{
+				cout << "Ошибка: матрица не существует\n";
+			}
 			break;
 		}
 
 		case 6:
 		{
-			print_func(check_row, m, rows, cols);
+			// Удаление отрицательных и нулевых строк
+			try
+			{
+				print_func(check_row, m, rows, cols);
+				cout << "SUCCESS!\n";
+			}
+			catch (int)
+			{
+				cout << "Ошибка: матрица не существует\n";
+			}
 			break;
 		}
 
 		case 7:
 		{
-			printMatrix(m, rows, cols);
+			// Вывод матрицы
+
+			try
+			{
+				printMatrix(m, rows, cols);
+				break;
+			}
+			catch (int)
+			{
+				cout << "Ошибка: матрица не существует\n";
+			}
 			break;
 		}
 
 		case 9:
 		{
+			// Вывод меню
+
 			menu();
 			break;
 		}
 
 		case 0:
 		{
+			// Выход
+
 			tf = false;
 			break;
 		}
 
 		default:
 		{
-			cout << "\nНет такого пункта меню!\n";
+			cout << "Нет такого пункта меню!\n";
 		}
 		}
 	}

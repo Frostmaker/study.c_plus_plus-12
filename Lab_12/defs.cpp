@@ -8,9 +8,9 @@ void printMatrix(double**& m, size_t& rows, size_t& cols)
 	// Функция печати матрицы в консоль
 
 	if (m == nullptr) {
-		cout << "Матрица не введена!";
-		return;
+		throw - 2;
 	}
+
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < cols; j++) {
 			cout << m[i][j] << '\t';
@@ -25,6 +25,10 @@ void printMatrix(double**& m, size_t& rows, size_t& cols)
 void read_new(double**& m, size_t& rows, size_t& cols)
 {
 	// Функция создания динамической матрицы
+
+	if (m != nullptr) {
+		throw - 1;
+	}
 
 	cout << "Введите количество строк матрицы: ";
 	cin >> rows;
@@ -45,9 +49,13 @@ void read_new(double**& m, size_t& rows, size_t& cols)
 }
 
 
-void delete_matrix(double**& m, size_t rows, size_t cols)
+void delete_matrix(double**& m, size_t& rows, size_t& cols)
 {
 	// Функция удаления динамической матрицы из памяти
+
+	if (m == nullptr) {
+		throw - 2;
+	}
 
 	for (int i = 0; i < rows; ++i) {
 		delete[] m[i];
@@ -55,6 +63,8 @@ void delete_matrix(double**& m, size_t rows, size_t cols)
 
 	delete[] m;
 	m = nullptr;
+	rows = 0;
+	cols = 0;
 	cout << "Удаление прошло успешно!" << endl;
 	return;
 }
@@ -63,6 +73,14 @@ void delete_matrix(double**& m, size_t rows, size_t cols)
 double sum(double**& m, size_t& rows, size_t& cols)
 {
 	// Функция вычисления отношения сумм элементов на главной и побочной диагоналях квадратной матрицы
+
+	if (m == nullptr) {
+		throw - 2;
+	}
+
+	if (rows != cols) {
+		throw - 3;
+	}
 
 	double s1 = 0, s2 = 0;
 	for (int i = 0, j = 0; i < rows, j < cols; i++, j++) {
@@ -73,9 +91,10 @@ double sum(double**& m, size_t& rows, size_t& cols)
 	}
 
 	if (s2 == 0) {
-		throw 1;
+		throw - 4;
 	}
 
+	cout << "Ответ: ";
 	return s1 / s2;
 }
 
@@ -84,25 +103,28 @@ void newcolum(double**& m, size_t& rows, size_t& cols)
 {
 	// Функция добавляет в матрицу столбец, содержащий минимальный положительный элемент в строке. Если в строке нет положительных элементов, то добавляет 0
 
+	if (m == nullptr) {
+		throw - 2;
+	}
+
 	double* a;
 	a = new double[rows];
 	double* b = new double[cols];
-	double p = 0;
+	double p;
 	for (int i = 0; i < rows; i++) {
-		p = m[i][0];
+		p = DBL_MAX;
 		for (int j = 0; j < cols; j++) {
 			b[j] = m[i][j];
-			if ((m[i][j] < p)) {
-				if (m[i][j] <= 0) {
-					p = 0;
-				}
-				else {
-					p = m[i][j];
+			if (m[i][j] < p) {
+				if (m[i][j] > 0) {
+					p = m[i][j];;
 				}
 			}
 		}
-		a[i] = p;
-
+		if (p == DBL_MAX)
+			a[i] = 0;
+		else
+			a[i] = p;
 
 		delete[] m[i];
 		m[i] = new double[cols + 1];
@@ -122,11 +144,15 @@ void max_del(double**& m, size_t& rows, size_t& cols)
 {
 	// Функция удаляет из матрицы строку и столбец, на пересечении которых стоит максимальный элемент матрицы
 
-	double max = 0;
-	int k = 0, n = 0;
+	if (m == nullptr) {
+		throw - 2;
+	}
+
+	double max = DBL_MIN;
+	int k, n;
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < cols; j++) {
-			if (m[i][j] > max) {
+				if (m[i][j] > max) {
 				max = m[i][j];
 				k = i;
 				n = j;
@@ -138,12 +164,26 @@ void max_del(double**& m, size_t& rows, size_t& cols)
 			m[i - 1][j] = m[i][j];
 		}
 	}
-	for (int j = n + 1; j < cols; j++) {
-		for (int i = 0; i < rows; i++) {
-			m[i][j - 1] = m[i][j];
-		}
-	}
+	delete[] m[rows - 1];
+	rows--;
 
+	double* b;
+	for (int i = 0; i < rows; i++) {
+		b = new double[cols - 1];
+		for (int j = 0; j < n; j++) {
+			b[j] = m[i][j];
+		}
+		for (int j = n + 1; j < cols; j++) {
+			b[j - 1] = m[i][j];
+		}
+
+		delete[] m[i];
+		m[i] = new double[cols - 1];
+		for (int j = 0; j < cols - 1; j++)
+			m[i][j] = b[j];
+		delete[] b;
+	}
+	cols--;
 	return;
 }
 
@@ -151,6 +191,10 @@ void max_del(double**& m, size_t& rows, size_t& cols)
 void print_func(bool (*f)(double*, size_t), double**& m, size_t& rows, size_t& cols)
 {
 	// Ф. удаляет из матрицы строки, удовлетворяющие условию, заданному функцией-параметром
+
+	if (m == nullptr) {
+		throw - 2;
+	}
 
 	int k{ 0 };
 	for (int i = 0; i < rows; i++) {

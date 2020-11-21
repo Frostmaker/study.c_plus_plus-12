@@ -15,6 +15,21 @@
 
 using namespace std;
 
+void menu()
+{
+    cout << "/======================= MENU =======================\\\n";
+    cout << "| 1. Ввод матрицы                                    |\n";
+    cout << "| 2. Удаление матрицы                                |\n";
+    cout << "| 3. Отношение сумм элементов на диагоналях          |\n";
+    cout << "| 4. Добавить столбец с мин. пол. элементом строки   |\n";
+    cout << "| 5. Удаление строки и столбца с макс. элементом     |\n";
+    cout << "| 6. Удаление отрицательных и нулевых строк          |\n";
+	cout << "| 7. Вывод матрицы                                   |\n";
+	cout << "| 9. Вывод меню                                      |\n";
+    cout << "| 0. Выход                                           |\n";
+    cout << "\\====================================================/\n";
+}
+
 int main()
 {
 	setlocale(LC_ALL, "Rus");
@@ -23,38 +38,79 @@ int main()
 	size_t rows;
 	size_t cols;
 
-	// # 1
-	read_new(m, rows, cols);
+	int p;
+	bool tf{ true };
+	menu();
+	while (tf) {
+		cout << "Выберите пункт меню: ";
+		cin >> p;
 
-	// # 2
-	delete_matrix(m, rows, cols);
+		switch (p) {
+		case 1:
+		{
+			read_new(m, rows, cols);
+			break;
+		}
 
-	// # 3
-	read_new(m, rows, cols);
-	try {
-		cout << sum(m, rows, cols) << endl;
+		case 2:
+		{
+			delete_matrix(m, rows, cols);
+			break;
+		}
+
+		case 3:
+		{
+			try {
+				cout << sum(m, rows, cols) << endl;
+			}
+			catch (int a) {
+				cout << "Ошибка: деление на 0" << endl;
+			}
+			break;
+		}
+
+		case 4:
+		{
+			newcolum(m, rows, cols);
+			break;
+		}
+
+		case 5:
+		{
+			max_del(m, rows, cols);
+			break;
+		}
+
+		case 6:
+		{
+			print_func(check_row, m, rows, cols);
+			break;
+		}
+
+		case 7:
+		{
+			printMatrix(m, rows, cols);
+			break;
+		}
+
+		case 9:
+		{
+			menu();
+			break;
+		}
+
+		case 0:
+		{
+			tf = false;
+			break;
+		}
+
+		default:
+		{
+			cout << "\nНет такого пункта меню!\n";
+		}
+		}
 	}
-	catch (int a) {
-		cout << "Ошибка: деление на 0" << endl;
-	}
-	delete_matrix(m, rows, cols);
-
-	// # 4
-	read_new(m, rows, cols);
-	newcolum(m, rows, cols);
-	delete_matrix(m, rows, cols);
-
-	// # 5
-	read_new(m, rows, cols);
-	max_del(m, rows, cols);
-	delete_matrix(m, rows, cols);
-
-	// # 6
-	read_new(m, rows, cols);
-	printMatrix(m, rows, cols);
-	print_func(check_row, m, rows, cols);
-	printMatrix(m, rows, cols);
-	delete_matrix(m, rows, cols);
 
 	//system("pause");
 	return 0;

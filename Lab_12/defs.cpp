@@ -7,6 +7,10 @@ void printMatrix(double**& m, size_t& rows, size_t& cols)
 {
 	// Функция печати матрицы в консоль
 
+	if (m == nullptr) {
+		cout << "Матрица не введена!";
+		return;
+	}
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < cols; j++) {
 			cout << m[i][j] << '\t';
@@ -50,6 +54,7 @@ void delete_matrix(double**& m, size_t rows, size_t cols)
 	}
 
 	delete[] m;
+	m = nullptr;
 	cout << "Удаление прошло успешно!" << endl;
 	return;
 }
